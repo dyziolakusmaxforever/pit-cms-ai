@@ -1,0 +1,39 @@
+
+version: '3.8'
+
+services:
+  cms_postgres:
+    image: postgres:14
+    container_name: cms_postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - cms_pgdata:/var/lib/postgresql/data
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+    ports:
+      - "5433:5432"
+
+  adminer:
+    image: adminer
+    container_name: cms_adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  backend:
+    build: ./backend
+    container_name: cms_backend
+    restart: always
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+volumes:
+  cms_pgdata:

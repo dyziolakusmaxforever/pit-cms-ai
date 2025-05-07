@@ -1,0 +1,4 @@
+CREATE USER pitadmin WITH PASSWORD 'Pitubuntu1978!@';
+CREATE DATABASE cms OWNER pitadmin;
+GRANT ALL PRIVILEGES ON DATABASE cms TO pitadmin;
+
